@@ -1,9 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>DELI-VERY</title>
-    </head>
-    <body>
-        <h1>Hello World!!!</h1>
-    </body>
+<head>
+    <script type="text/javascript" src="js/menu.js" defer></script>
+    <script src="https://vuejs.org/js/vue.js" defer></script>
+    <script src="js/js_script.js" defer></script>
+    <script src="js/vue_script.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>BurgerOnline webshop</title>
+    <meta charset="utf-8"/>
+</head>
+
+<body>
+<header>
+    <h1 id="headline">Welcome to BurgerOnline, always blessed with burgers!</h1>
+    <img id="headerpic" src="img/hamburgerjesus.jpg">
+</header>
+
+<main id="myburgers">
+
+    <section id="burgersec">
+        <div>
+            <h2>
+                Pick a burger!</h2>
+            <h3>
+                Choose from our sortiment:</h3>
+        </div>
+
+        <div class="wrapper">
+
+            <div v-for="burg in burgers" class="burger-item">
+                {{burg.burgerName}}
+                <input type="checkbox" id="checkbox" v-model="chosen" v-bind:value="burg.burgerName">
+                <img v-bind:src='burg.picture'>
+                <dl>
+                    <dt>{{burg.kCal + " kCal"}}</dt>
+                    <dt v-for="ingredient in burg.extra">
+                        {{ingredient}}
+                    </dt>
+                    <dt v-if="burg.gluten"><span class="ingredients">
+                               Contains gluten </span></dt>
+                    <dt v-if="burg.lactose"><span class="ingredients">
+                                Contains lactose </span></dt>
+                </dl>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="infosec">
+        <h2>Customer info:</h2>
+        <p>Some necessary information about you.</p>
+
+        <h4>Delivery information</h4>
+        <p>
+            <label for="name">Full name</label><br>
+            <input type="text" id="name" name="fn" required="required" v-model="name"
+                   placeholder="First- and last name">
+        </p>
+        <p>
+            <label for="street">Street</label><br>
+            <input type="text" id="street" name="st" v-model="street" placeholder="Street">
+        </p>
+        <p>
+            <label for="number">Street Number</label><br>
+            <input type="number" id="number" name="sn" v-model="number" placeholder="Street number">
+        </p>
+        <p>
+            <label for="email">Email</label><br>
+            <input type="email" id="email" name="em" required="required" v-model="email" placeholder="E-mail address">
+        </p>
+        <p>
+            <label for="payment">Payment method</label><br>
+            <select id="payment" name="rcp" v-model="payment">
+                <option value="Creditcard">Creditcard</option>
+                <option value="Paypal">Paypal</option>
+                <option value="Cash">Cash</option>
+                <option value="Swish">Swish</option>
+                <option value="Natura">Natura</option>
+            </select>
+        </p>
+        <label>Gender</label><br>
+        <input type="radio" name="gender" v-model="picked" value="Male"> Male<br>
+        <input type="radio" name="gender" v-model="picked" value="Female"> Female<br>
+        <input type="radio" name="gender" v-model="picked" value="Do not wish to provide"> Do not wish to provide<br>
+    </section>
+
+
+    <div id="orderButton">
+        <button type="submit" v-on:click="markDone(key)"><img
+                src="https://media.fyndiq.se/product/30/0b/94/6397ab5f2a5ceb25d5183dc5f608fff5c6/original.png"
+                width="30">
+            Ready to order!
+        </button>
+    </div>
+
+    <p class="orderedItems" v-model="orderlist">
+        {{orderlist}}
+    </p>
+
+</main>
+<footer>
+    <h6>2019, It's Britney b**ch</h6>
+</footer>
+
+</body>
+
 </html>
