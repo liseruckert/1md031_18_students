@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/deli-very.css">
+
     <script type="text/javascript" src="js/menu.js" defer></script>
-    <script src="https://vuejs.org/js/vue.js" defer></script>
-    <script src="js/js_script.js" defer></script>
+    <!--script src="js/js_script.js" defer></script-->
+    <script src="/vue/vue.js" defer></script>
+    <script src="/socket.io/socket.io.js" defer></script>
     <script src="js/vue_script.js" defer></script>
+
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>BurgerOnline webshop</title>
     <meta charset="utf-8"/>
@@ -59,6 +65,7 @@
             <input type="text" id="name" name="fn" required="required" v-model="name"
                    placeholder="First- and last name">
         </p>
+        <!--
         <p>
             <label for="street">Street</label><br>
             <input type="text" id="street" name="st" v-model="street" placeholder="Street">
@@ -66,7 +73,7 @@
         <p>
             <label for="number">Street Number</label><br>
             <input type="number" id="number" name="sn" v-model="number" placeholder="Street number">
-        </p>
+        </p> -->
         <p>
             <label for="email">Email</label><br>
             <input type="email" id="email" name="em" required="required" v-model="email" placeholder="E-mail address">
@@ -81,23 +88,41 @@
                 <option value="Natura">Natura</option>
             </select>
         </p>
+
         <label>Gender</label><br>
         <input type="radio" name="gender" v-model="picked" value="Male"> Male<br>
         <input type="radio" name="gender" v-model="picked" value="Female"> Female<br>
         <input type="radio" name="gender" v-model="picked" value="Do not wish to provide"> Do not wish to provide<br>
+
+        <h1> Where do you want your order delivered? Click in the map! </h1>
+        <a href="/dispatcher" target="_blank">Open dispatcher in new window</a>.
+
+        <div class="view-box">
+            <div id="dots" v-on:click="displayOrder">
+                <div v-bind:style="{ left: deliveryLocation.x + 'px', top: deliveryLocation.y + 'px'}">
+                    T
+                </div>
+            </div>
+        </div>
+
     </section>
 
-
     <div id="orderButton">
-        <button type="submit" v-on:click="markDone(key)"><img
+        <button type="submit" v-on:click="addOrder()"><img
                 src="https://media.fyndiq.se/product/30/0b/94/6397ab5f2a5ceb25d5183dc5f608fff5c6/original.png"
                 width="30">
             Ready to order!
         </button>
     </div>
 
-    <p class="orderedItems" v-model="orderlist">
-        {{orderlist}}
+    <p class="orderedItems" id="pressedButton" style="display:none;">
+    Your order was successfully received: <br>
+        Burgers: {{chosen}} <br>
+        Name: {{name}} <br>
+        E-mail: {{email}} <br>
+        Payment method: {{payment}} <br>
+        Gender: {{picked}} <br>
+        Location: {{deliveryLocation}}
     </p>
 
 </main>
